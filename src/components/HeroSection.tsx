@@ -60,8 +60,7 @@ const HeroSection = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.4 }}
         >
-          Our advanced AI technology helps you identify manipulated images with 
-          precision and confidence. Stay one step ahead in the age of digital deception.
+          Our advanced AI technology helps you identify manipulated images. Stay one step ahead in the age of digital deception.
         </motion.p>
 
         <motion.div
