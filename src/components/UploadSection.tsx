@@ -228,7 +228,7 @@ const UploadSection = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-8 flex flex-col items-center"
           >
-            <Button 
+{/*             <Button 
               onClick={handleAnalyzeClick} 
               disabled={!selectedImage || isLoading}
               className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300 relative overflow-hidden"
@@ -249,6 +249,46 @@ const UploadSection = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  "Analyze Image"
+                )}
+              </span>
+            </Button> */}
+            <Button 
+              onClick={handleAnalyzeClick} 
+              disabled={!selectedImage || isLoading}
+              className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300 relative overflow-hidden"
+            >
+              {isLoading && (
+                <motion.div
+                  className="absolute inset-0 bg-neon-purple/30"
+                  animate={{
+                    left: ["-100%", "150%"],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                />
+              )}
+              <span className="relative z-10 flex items-center justify-center">
+                {isLoading ? (
+                  <>
+                    <motion.div
+                      className="mr-3"
+                      animate={{
+                        rotate: 360,
+                      }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      <Loader2 className="h-5 w-5" />
+                    </motion.div>
                     Analyzing...
                   </>
                 ) : (
