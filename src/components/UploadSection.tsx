@@ -143,7 +143,65 @@ const UploadSection = () => {
             </motion.div>
 
             {/* Preview Area */}
-            <motion.div
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-black/50 rounded-lg h-72 flex items-center justify-center overflow-hidden border border-gray-800"
+                >
+                {selectedImage ? (
+                  <div className="relative w-full h-full">
+                    <img
+                      src={selectedImage}
+                      alt="Selected image"
+                      className="w-full h-full object-contain p-2"
+                    />
+                
+                    {/* Scanning Line Animation */}
+                    <motion.div
+                      className="absolute top-0 left-0 w-full h-[2px] bg-green-400 opacity-80"
+                      animate={{ y: ["0%", "100%"] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2,
+                        ease: "linear",
+                      }}
+                    />
+                
+                    {/* Clear Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        clearImage();
+                      }}
+                      className="absolute top-2 right-2 bg-black/60 rounded-full p-1 text-gray-400 hover:text-white"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-center px-4">
+                    <Image className="h-10 w-10 text-gray-500 mb-3" />
+                    <p className="text-gray-400">Image preview will appear here</p>
+                  </div>
+                )}
+                </motion.div>
+
+{/*             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -172,7 +230,7 @@ const UploadSection = () => {
                   <p className="text-gray-400">Image preview will appear here</p>
                 </div>
               )}
-            </motion.div>
+            </motion.div> */}
           </div>
 
           <motion.div
