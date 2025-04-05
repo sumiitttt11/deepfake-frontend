@@ -68,7 +68,7 @@ const UploadSection = () => {
     formData.append("file", imageFile);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/predict", {
+      const response = await fetch("https://deepfake-backend-hvcq.onrender.com/predict", {
         method: "POST",
         body: formData,
       });
@@ -142,17 +142,21 @@ const UploadSection = () => {
               </div>
             </motion.div>
 
-            {/* Preview Area */}
+            {/* Preview Area with Analysis Overlay */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-black/50 rounded-lg h-72 flex items-center justify-center overflow-hidden border border-gray-800"
+              className="bg-black/50 rounded-lg h-72 flex items-center justify-center overflow-hidden border border-gray-800 relative"
             >
               {selectedImage ? (
                 <div className="relative w-full h-full">
-                  <img src={selectedImage} alt="Selected image" className="w-full h-full object-contain p-2" />
+                  <img 
+                    src={selectedImage} 
+                    alt="Selected image" 
+                    className="w-full h-full object-contain p-2" 
+                  />
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -165,6 +169,48 @@ const UploadSection = () => {
                       <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                   </button>
+
+                  {/* Analysis Overlay */}
+                  {isLoading && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm"
+                    >
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          rotate: [0, 270, 360]
+                        }}
+                        transition={{ 
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "anticipate"
+                        }}
+                      >
+                        <Loader2 className="h-12 w-12 text-neon-purple animate-spin-slow" />
+                      </motion.div>
+                      <motion.p
+                        initial={{ y: 10 }}
+                        animate={{ y: 0 }}
+                        className="mt-4 text-neon-purple font-semibold tracking-wide"
+                      >
+                        Scanning Image...
+                      </motion.p>
+                      <motion.div
+                        className="w-32 h-1 bg-gray-800 rounded-full mt-4 overflow-hidden"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "mirror"
+                        }}
+                      >
+                        <div className="w-full h-full bg-neon-purple origin-left transform animate-loading-bar" />
+                      </motion.div>
+                    </motion.div>
+                  )}
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center text-center px-4">
@@ -182,17 +228,43 @@ const UploadSection = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-8 flex flex-col items-center"
           >
-            <Button onClick={handleAnalyzeClick} disabled={!selectedImage || isLoading} className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Analyzing...
-                </>
-              ) : (
-                "Analyze Image"
+            <Button 
+              onClick={handleAnalyzeClick} 
+              disabled={!selectedImage || isLoading}
+              className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300 relative overflow-hidden"
+            >
+              {isLoading && (
+                <motion.div
+                  className="absolute inset-0 bg-neon-purple/30"
+                  animate={{
+                    left: ["-100%", "150%", "150%"],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                />
               )}
+              <span className="relative z-10">
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  "Analyze Image"
+                )}
+              </span>
             </Button>
-            {result && <p className="text-white mt-4">{result}</p>}
+            {result && (
+              <motion.p
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="mt-4 text-lg font-semibold text-neon-purple neon-glow"
+              >
+                {result}
+              </motion.p>
+            )}
           </motion.div>
         </div>
       </div>
