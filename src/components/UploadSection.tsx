@@ -68,7 +68,7 @@ const UploadSection = () => {
     formData.append("file", imageFile);
 
     try {
-      const response = await fetch("https://deepfake-backend-hvcq.onrender.com/predict", {
+      const response = await fetch("http://127.0.0.1:8000/predict", {
         method: "POST",
         body: formData,
       });
@@ -143,95 +143,57 @@ const UploadSection = () => {
             </motion.div>
 
             {/* Preview Area */}
-            {/* Preview Area */}
-<motion.div
-  initial={{ opacity: 0, x: 20 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.5, delay: 0.3 }}
-  className="bg-black/50 rounded-lg h-72 flex items-center justify-center overflow-hidden border border-gray-800"
->
-  {selectedImage ? (
-    <div className="relative w-full h-full">
-      <img
-        src={selectedImage}
-        alt="Selected image"
-        className="w-full h-full object-contain p-2"
-      />
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-black/50 rounded-lg h-72 flex items-center justify-center overflow-hidden border border-gray-800"
+            >
+              {selectedImage ? (
+                <div className="relative w-full h-full">
+                  <img src={selectedImage} alt="Selected image" className="w-full h-full object-contain p-2" />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearImage();
+                    }}
+                    className="absolute top-2 right-2 bg-black/60 rounded-full p-1 text-gray-400 hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center text-center px-4">
+                  <Image className="h-10 w-10 text-gray-500 mb-3" />
+                  <p className="text-gray-400">Image preview will appear here</p>
+                </div>
+              )}
+            </motion.div>
+          </div>
 
-      {/* Scanning Line Animation */}
-      {isLoading && (
-        <motion.div
-          className="absolute left-0 w-full h-[2px] bg-green-400 opacity-80"
-          initial={{ top: 0 }}
-          animate={{ top: "100%" }}
-          transition={{
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 2,
-            ease: "linear",
-          }}
-        />
-      )}
-
-      {/* Clear Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          clearImage();
-        }}
-        className="absolute top-2 right-2 bg-black/60 rounded-full p-1 text-gray-400 hover:text-white"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-  ) : (
-    <div className="flex flex-col items-center justify-center text-center px-4">
-      <Image className="h-10 w-10 text-gray-500 mb-3" />
-      <p className="text-gray-400">Image preview will appear here</p>
-    </div>
-  )}
-</motion.div>
-
-{/* Analyze Button Section */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.5, delay: 0.5 }}
-  className="mt-8 flex flex-col items-center"
->
-  <Button
-    onClick={handleAnalyzeClick}
-    disabled={!selectedImage || isLoading}
-    className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300"
-  >
-    {isLoading ? (
-      <>
-        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-        Analyzing...
-      </>
-    ) : (
-      "Analyze Image"
-    )}
-  </Button>
-
-  {result && <p className="text-white mt-4">{result}</p>}
-</motion.div>
-
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-8 flex flex-col items-center"
+          >
+            <Button onClick={handleAnalyzeClick} disabled={!selectedImage || isLoading} className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300">
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                "Analyze Image"
+              )}
+            </Button>
+            {result && <p className="text-white mt-4">{result}</p>}
+          </motion.div>
         </div>
       </div>
     </section>
