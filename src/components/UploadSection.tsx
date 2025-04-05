@@ -159,13 +159,15 @@ const UploadSection = () => {
         className="w-full h-full object-contain p-2"
       />
 
-      {/* Show scanning line only while loading */}
+      {/* Scanning Line Animation */}
       {isLoading && (
         <motion.div
-          className="absolute top-0 left-0 w-full h-[2px] bg-green-400 opacity-80"
-          animate={{ y: ["0%", "100%"] }}
+          className="absolute left-0 w-full h-[2px] bg-green-400 opacity-80"
+          initial={{ top: 0 }}
+          animate={{ top: "100%" }}
           transition={{
             repeat: Infinity,
+            repeatType: "loop",
             duration: 2,
             ease: "linear",
           }}
@@ -204,27 +206,32 @@ const UploadSection = () => {
   )}
 </motion.div>
 
-          </div>
+{/* Analyze Button Section */}
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: 0.5 }}
+  className="mt-8 flex flex-col items-center"
+>
+  <Button
+    onClick={handleAnalyzeClick}
+    disabled={!selectedImage || isLoading}
+    className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300"
+  >
+    {isLoading ? (
+      <>
+        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+        Analyzing...
+      </>
+    ) : (
+      "Analyze Image"
+    )}
+  </Button>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-8 flex flex-col items-center"
-          >
-            <Button onClick={handleAnalyzeClick} disabled={!selectedImage || isLoading} className="bg-neon-purple hover:bg-neon-purple/80 text-white px-8 py-6 rounded-lg font-medium text-lg transition-all duration-300">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Analyzing...
-                </>
-              ) : (
-                "Analyze Image"
-              )}
-            </Button>
-            {result && <p className="text-white mt-4">{result}</p>}
-          </motion.div>
+  {result && <p className="text-white mt-4">{result}</p>}
+</motion.div>
+
         </div>
       </div>
     </section>
