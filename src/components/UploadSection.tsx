@@ -248,7 +248,7 @@ const UploadSection = () => {
               <span className="relative z-10">
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5" />
+                    < className="mr-2 h-5 w-5" />
                     Analyzing...
                   </>
                 ) : (
