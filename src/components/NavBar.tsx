@@ -70,9 +70,15 @@ const NavBar = () => {
           className="flex items-center"
           whileHover={{ scale: 1.05 }}
         >
-          <span className="text-xl md:text-2xl font-bold font-orbitron text-white neon-glow">
+          <a
+            href="https://www.deepfake-frontend-tan.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xl md:text-2xl font-bold font-orbitron text-white neon-glow"
+          >
             <span className="text-neon-purple">Deepfake</span> Detector
-          </span>
+          </a>
+
         </motion.div>
         
         <div className="hidden md:flex space-x-6">
