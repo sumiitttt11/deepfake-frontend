@@ -71,8 +71,7 @@ const NavBar = () => {
           whileHover={{ scale: 1.05 }}
         >
           <a
-            href="https://www.deepfake-frontend-tan.vercel.app"
-            target="_blank"
+            href="https://deepfake-frontend-tan.vercel.app/"
             rel="noopener noreferrer"
             className="text-xl md:text-2xl font-bold font-orbitron text-white neon-glow"
           >
